@@ -1,36 +1,56 @@
 var botao = document.getElementById("botao");
-botao.addEventListener("click", alertar, false);
-var nome        = document.getElementById("nome");
-var email       =  document.getElementById("email");
-var telefone    =  document.getElementById("telefone");
-var cep         =  document.getElementById("cep");
-var estado      =  document.getElementById("estado");
-var cidade      =  document.getElementById("cidade");
-var bairro      =  document.getElementById("bairro");
-var logradouro  =  document.getElementById("logradouro");
-var numero      =  document.getElementById("numero");
-var complemento =  document.getElementById("complemento");
-
-var saida = document.getElementById("saida-de-dados");
-
+botao.addEventListener("click", alertar,false);
+ 
+    var nome = document.getElementById("nome");
+    var email = document.getElementById("email");
+    var saida = document.getElementById("saida-de-dados");
+    var cep = document.getElementById("cep");
+    var telefone = document.getElementById("telefone");
+    var complemento = document.getElementById("complemento");
+    var logradouro = document.getElementById("logradouro");
+    var bairro = document.getElementById("bairro");
+    var cidade = document.getElementById("cidade");
+    var estado = document.getElementById("estado");
+ 
+ 
+ 
+ 
 function alertar(event){
-//{ alert("Voce clicou no botao!!!" + " " + nome.value);
-
-//var numero = 7;
+   // alert("Voce clicou no botao!!!" + "" + nome.value);
+ 
+   // var nuemro = 7;
    // var resultado = numero % 2;
    // if(resultado == 0){
-    //    alert("este número é par!");
-
-   // }
-   saida.inertText = "Nome:  "+ nome.value +
-   "\n Email:  " + email.value;
-   "\n telefone:  " + telefone.value;
-   "\n cep:  " + cep.value;
-   "\n estado:  " + estado.value;
-   "\n cidade:  " + cidade.value;
-   "\n bairro:  " + bairro.value;
-   "\n logradouro:  " + logradouro.value;
-   "\n numero:  " + numero.value;
-   "\n comlemento:  " + complemento.value;
-   
+   //     alert("este numero é par!");
+  //  }
+ 
+  const url = `https://viacep.com.br/ws/${cep.value}/json`;
+ 
+  fetch(url)
+  .then(resposta=> {
+return resposta.json();
+  }
+  )
+  .then(dadosDoEndereco=>{
+    logradouro.value = dadosDoEndereco.logradouro;
+    bairro.value = dadosDoEndereco.bairro;
+    cidade.value = dadosDoEndereco.localidade;
+    estado.value = dadosDoEndereco.uf;
+    complemento.value = dadosDoEndereco.complemento;
+  })
+  .catch(function(e){
+    alert(e.message());
+  })
+ 
+    saida.innerText =
+    "nome: " + nome.value +
+    "\n Email: " + email.value +
+    "\n cep:" + cep.value +
+    "\n telefone:" + telefone.value +
+    "\n Complemento:" + complemento.value +
+    "\n logradouro" + logradouro.value +
+    "\n Bairro:" +  bairro.value +  
+    "\n Cidade:" + cidade.value +  
+    "\n Estado:"+ estado.value;
 }
+
