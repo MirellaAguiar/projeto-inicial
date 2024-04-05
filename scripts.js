@@ -1,16 +1,16 @@
 var botao = document.getElementById("botao");
 botao.addEventListener("click", alertar,false);
  
-    var nome = document.getElementById("nome");
-    var email = document.getElementById("email");
-    var saida = document.getElementById("saida-de-dados");
-    var cep = document.getElementById("cep");
-    var telefone = document.getElementById("telefone");
+    var nome        = document.getElementById("nome");
+    var email       = document.getElementById("email");
+    var saida       = document.getElementById("saida-de-dados");
+    var cep         = document.getElementById("cep");
+    var telefone    = document.getElementById("telefone");
     var complemento = document.getElementById("complemento");
-    var logradouro = document.getElementById("logradouro");
-    var bairro = document.getElementById("bairro");
-    var cidade = document.getElementById("cidade");
-    var estado = document.getElementById("estado");
+    var logradouro  = document.getElementById("logradouro");
+    var bairro      = document.getElementById("bairro");
+    var cidade      = document.getElementById("cidade");
+    var estado      = document.getElementById("estado");
  
  
  
@@ -22,8 +22,17 @@ function alertar(event){
    // var resultado = numero % 2;
    // if(resultado == 0){
    //     alert("este numero é par!");
-  //  }
- 
+   //  }
+   //validação dos dados
+
+   if(cep.value.length < 8){
+     alert('Entre com um CEP válido!');
+     return;
+   }
+
+   //formatar os dados
+   cep.value = cep.value.resplace('-','');
+
   const url = `https://viacep.com.br/ws/${cep.value}/json`;
  
   fetch(url)
@@ -32,25 +41,32 @@ return resposta.json();
   }
   )
   .then(dadosDoEndereco=>{
-    logradouro.value = dadosDoEndereco.logradouro;
-    bairro.value = dadosDoEndereco.bairro;
-    cidade.value = dadosDoEndereco.localidade;
-    estado.value = dadosDoEndereco.uf;
+    logradouro.value  = dadosDoEndereco.logradouro;
+    bairro.value      = dadosDoEndereco.bairro;
+    cidade.value      = dadosDoEndereco.localidade;
+    estado.value      = dadosDoEndereco.uf;
     complemento.value = dadosDoEndereco.complemento;
+
+    saidaDeDados(); // chamada da função
   })
   .catch(function(e){
     alert(e.message());
   })
  
-    saida.innerText =
-    "nome: " + nome.value +
-    "\n Email: " + email.value +
-    "\n cep:" + cep.value +
-    "\n telefone:" + telefone.value +
-    "\n Complemento:" + complemento.value +
-    "\n logradouro" + logradouro.value +
-    "\n Bairro:" +  bairro.value +  
-    "\n Cidade:" + cidade.value +  
-    "\n Estado:"+ estado.value;
+   
 }
 
+function saidaDeDados(){
+  
+  saida.innerText =
+  "nome: " + nome.value +
+  "\n Email: " + email.value +
+  "\n cep: " + cep.value +
+  "\n telefone: " + telefone.value +
+  "\n Complemento: " + complemento.value +
+  "\n logradouro: " + logradouro.value +
+  "\n Bairro: " +  bairro.value +  
+  "\n Cidade: " + cidade.value +  
+  "\n Estado: "+ estado.value;
+  
+}
